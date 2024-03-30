@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ethereumjs/tx": "^5.3.0",
     "@near-wallet-selector/core": "^8.5.1",
     "@near-wallet-selector/here-wallet": "^8.5.1",
     "@near-wallet-selector/modal-ui": "^8.5.1",
