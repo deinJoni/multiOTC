@@ -34,7 +34,7 @@ const useCreatePayload = () => {
         transactionData,
         { common }
       );
-      const payload = transaction.getMessageToSign(true);
+      const payload = transaction.getHashedMessageToSign;
 
       return { transaction, payload };
     },
