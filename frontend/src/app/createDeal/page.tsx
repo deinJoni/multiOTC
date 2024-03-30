@@ -1,5 +1,5 @@
-"use client"
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import {
   Card,
   CardContent,
@@ -19,11 +19,34 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { useWallet } from "@/wallets/wallet-selector";
+import useEthereumProvider from "@/services/useEthereumProvider";
+import useDeriveAddress from "@/services/useDeriveAddress";
+import useGetBalance from "@/services/useGetBalance";
+import useCreatePayload from "@/services/useCreatePayload";
 
 const CreateDealPage = () => {
   // Add your code for creating a deal here
 
   const { viewMethod, callMethod } = useWallet();
+  const [accountId, setAccountId] = useState("...");
+  const [derivationPath, setDerivationPath] = useState("...");
+  const web3 = useEthereumProvider("https://rpc2.sepolia.org");
+  const derivedAddress = useDeriveAddress(web3, accountId, derivationPath);
+  const balance = useGetBalance(web3!, derivedAddress ? derivedAddress!.address : "0x3938d5d8CdA5863d5Bb7907A9cd64010229Bd564");
+  const createPayload = useCreatePayload();
+
+  const createPayloadButton = async () => {
+    createPayload(derivedAddress!.address, "0x3938d5d8CdA5863d5Bb7907A9cd64010229Bd564", "1", web3, "https://rpc2.sepolia.org")
+    .then((result) => {
+      console.log(result);
+    })
+  }
+
+  const handleDerivationPathChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setDerivationPath(event.target.value);
+  };
 
   return (
     <div className="flex flex-col items-center">
@@ -39,13 +62,20 @@ const CreateDealPage = () => {
             </p>
             <div className="grid gap-2">
               <Label htmlFor="otc-deal-name">OTC Deal Name</Label>
-              <Input id="otc-deal-name" placeholder="Enter the OTC deal name" />
+              <Input
+                placeholder="Enter the OTC deal name"
+                onChange={(e) => handleDerivationPathChange(e)}
+              />
+              {derivedAddress?.address}
+            </div>
+            <div>
+              Balance {balance?.balance} ETH
             </div>
           </CardContent>
         </CardHeader>
         <CardFooter className="flex justify-end gap-2">
           <Button variant="outline">Cancel</Button>
-          <Button>Create Escrow Account</Button>
+          <Button onClick={createPayloadButton}>seeeeend it</Button>
         </CardFooter>
       </Card>
     </div>
