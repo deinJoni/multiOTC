@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Card,
   CardContent,
@@ -21,10 +21,11 @@ import useEthereumProvider from "@/services/useEthereumProvider";
 import useDeriveAddress from "@/services/useDeriveAddress";
 import useGetBalance from "@/services/useGetBalance";
 import useCreatePayload from "@/services/useCreatePayload";
+import { useWallet } from "../layout";
 
 const CreateDealPage = () => {
-  const [accountId, setAccountId] = useState("...");
-  const [derivationPath, setDerivationPath] = useState("...");
+  const [accountId, setAccountId] = useState("");
+  const [derivationPath, setDerivationPath] = useState("");
   const web3 = useEthereumProvider("https://rpc2.sepolia.org");
   const derivedAddress = useDeriveAddress(web3, accountId, derivationPath);
   const balance = useGetBalance(
@@ -36,6 +37,10 @@ const CreateDealPage = () => {
   const createPayload = useCreatePayload();
   const [selectedItemHave, setSelectedItemHave] = useState("");
   const [selectedItemWant, setSelectedItemWant] = useState("");
+  const wallet = useWallet();
+  useEffect(() => {
+    wallet.accountId ? setAccountId(wallet.accountId) : setAccountId("");
+  }, [wallet]);
 
   const createPayloadButton = async () => {
     createPayload(
