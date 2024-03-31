@@ -5,9 +5,9 @@ import { useEffect, useState } from "react";
 import "@near-wallet-selector/modal-ui/styles.css";
 import NearLogo from "public/near-logo.svg";
 import { useWallet } from "@/wallets/wallet-selector";
-
-export const Navigation = () => {
-  const { signedAccountId, logOut, logIn } = useWallet();
+//@ts-ignore
+export const Navigation = (props: {wallet}) => {
+  const { signedAccountId, logOut, logIn, accountId } = useWallet();
   const [action, setAction] = useState(() => {});
   const [label, setLabel] = useState("Loading...");
 
@@ -36,6 +36,9 @@ export const Navigation = () => {
             className="d-inline-block align-text-top"
           />
         </Link>
+        <p>
+          aa{accountId}
+        </p>
         <div className="navbar-nav pt-1">
           {/* @ts-ignore */}
           <button className="btn btn-secondary" onClick={action}>

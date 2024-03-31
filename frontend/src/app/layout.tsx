@@ -31,7 +31,7 @@ export default function RootLayout({
     <WalletContext.Provider value={wallet}>
       <html lang="en">
         <body className={inter.className}>
-          <Navigation />
+          <Navigation wallet={wallet}/>
           {children}
         </body>
       </html>

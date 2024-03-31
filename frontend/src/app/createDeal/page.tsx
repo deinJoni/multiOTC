@@ -22,7 +22,8 @@ import useDeriveAddress from "@/services/useDeriveAddress";
 import useGetBalance from "@/services/useGetBalance";
 import useCreatePayload from "@/services/useCreatePayload";
 import { useWallet } from "../layout";
-
+import { Wallet } from "../../services/near-wallet";
+// @ts-ignore
 const CreateDealPage = () => {
   const [accountId, setAccountId] = useState("");
   const [derivationPath, setDerivationPath] = useState("");
@@ -40,7 +41,7 @@ const CreateDealPage = () => {
   const wallet = useWallet();
   useEffect(() => {
     wallet.accountId ? setAccountId(wallet.accountId) : setAccountId("");
-  }, [wallet]);
+  }, []);
 
   const createPayloadButton = async () => {
     createPayload(
